@@ -11,13 +11,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpForce;
     [SerializeField] private Transform wallCheck;
     [SerializeField] private Transform groundCheck;
+    [SerializeField] private float dashingPower = 24f;
+    [SerializeField] private float dashingTime = 0.2f;
+    [SerializeField] private float dashingCooldown = 1f;
+    
+
     bool isWallSliding;
     float wallSlidingSpeed=4;
     private bool canDash = true;
     private bool isDashing;
-    [SerializeField] private float dashingPower = 24f;
-    [SerializeField] private float dashingTime = 0.2f;
-    [SerializeField] private float dashingCooldown = 1f;
+
+
     bool isWallJumping;
     float wallJumpingDirection;
     float wallJumpingTime=0.2f;
@@ -74,10 +78,13 @@ public class PlayerController : MonoBehaviour
 
 
     
-    void Jump(){
+    void Jump()
+    {
         _rigidbody2D.velocity=Vector2.up*jumpForce;
     }
-    void WallSlide(){
+
+    void WallSlide()
+    {
         if (!IsGrounded()&&IsWalled()&&Dir.x!=0)
         {
             isWallSliding=true;
@@ -109,28 +116,18 @@ public class PlayerController : MonoBehaviour
             isWallJumping = true;
             _rigidbody2D.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
             wallJumpingCounter = 0f;
-            
-
-            
-
             Invoke(nameof(StopWallJumping), wallJumpingDuration);
-        }
-        
+        }   
     }
-
+    
     private void StopWallJumping()
     {
         isWallJumping = false;
     }
 
 
-    bool IsGrounded(){
-        return Physics2D.OverlapCircle(groundCheck.position,0.2f,groundLayer);
-    }
-    bool IsWalled(){
-        return Physics2D.OverlapCircle(wallCheck.position,0.2f, wallLayer);;         
-    }
-     private void Flip()
+    
+    private void Flip()
     {
         if (isFacingRight && Dir.x < 0f || !isFacingRight && Dir.x > 0f)
         {
@@ -140,6 +137,9 @@ public class PlayerController : MonoBehaviour
             transform.localScale = localScale;
         }
     }
+
+
+    #region Dash Routine
     private IEnumerator Dash()
     {
         canDash = false;
@@ -155,10 +155,13 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
-
-    
-    private void OnDrawGizmosSelected() {
-        Gizmos.DrawWireSphere(new Vector2(transform.position.x+.5f,transform.position.y),0.2f);
-        Gizmos.DrawWireCube(new Vector2(transform.position.x+0.5f,transform.position.y),new Vector2(0.2f,0.2f));
+    #endregion
+    #region Checks 
+    bool IsGrounded(){
+        return Physics2D.OverlapCircle(groundCheck.position,0.2f,groundLayer);
     }
+    bool IsWalled(){
+        return Physics2D.OverlapCircle(wallCheck.position,0.2f, wallLayer);;         
+    }
+    #endregion
 }
