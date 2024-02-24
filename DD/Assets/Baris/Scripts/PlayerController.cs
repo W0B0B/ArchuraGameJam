@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     float wallJumpingDirection;
     float wallJumpingTime=0.2f;
     float wallJumpingCounter;
-    float wallJumpingDuration=0.4f;
+    float wallJumpingDuration=0.5f;
     [SerializeField] Vector2 wallJumpingPower=new Vector2(8,16);
     private bool isFacingRight = true;
 
@@ -111,13 +111,7 @@ public class PlayerController : MonoBehaviour
             wallJumpingCounter = 0f;
             
 
-            if (transform.localScale.x != wallJumpingDirection)
-            {
-                isFacingRight = !isFacingRight;
-                Vector3 localScale = transform.localScale;
-                localScale.x *= -1f;
-                transform.localScale = localScale;
-            }
+            
 
             Invoke(nameof(StopWallJumping), wallJumpingDuration);
         }
