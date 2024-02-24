@@ -12,8 +12,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform wallCheck;
     [SerializeField] private Transform groundCheck;
     bool isWallSliding;
-    float wallSlidingSpeed=2;
-
+    float wallSlidingSpeed=4;
+    private bool canDash = true;
+    private bool isDashing;
+    [SerializeField] private float dashingPower = 24f;
+    [SerializeField] private float dashingTime = 0.2f;
+    [SerializeField] private float dashingCooldown = 1f;
     bool isWallJumping;
     float wallJumpingDirection;
     float wallJumpingTime=0.2f;
@@ -35,7 +39,10 @@ public class PlayerController : MonoBehaviour
         _rigidbody2D=GetComponent<Rigidbody2D>();
     }
     private void Update() {
-        
+        if (isDashing)
+        {
+            return;
+        }
         Dir.x=Input.GetAxisRaw("Horizontal");
         if (Input.GetKeyDown(KeyCode.Space)&&IsGrounded())
         {
@@ -43,13 +50,21 @@ public class PlayerController : MonoBehaviour
         }
         WallSlide();      
         WallJump();
+        
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        {
+            StartCoroutine(Dash());
+        } 
         if (!isWallJumping)
         {
             Flip();
         }
     }
     private void FixedUpdate() {
-        
+        if (isDashing)
+        {
+            return;
+        }
         if (!isWallJumping)
         {
             _rigidbody2D.velocity=new Vector2(Dir.x*speed,_rigidbody2D.velocity.y);
@@ -94,6 +109,7 @@ public class PlayerController : MonoBehaviour
             isWallJumping = true;
             _rigidbody2D.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
             wallJumpingCounter = 0f;
+            
 
             if (transform.localScale.x != wallJumpingDirection)
             {
@@ -105,6 +121,7 @@ public class PlayerController : MonoBehaviour
 
             Invoke(nameof(StopWallJumping), wallJumpingDuration);
         }
+        
     }
 
     private void StopWallJumping()
@@ -129,6 +146,23 @@ public class PlayerController : MonoBehaviour
             transform.localScale = localScale;
         }
     }
+    private IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+        float originalGravity = _rigidbody2D.gravityScale;
+        _rigidbody2D.gravityScale = 0f;
+        _rigidbody2D.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+        
+        yield return new WaitForSeconds(dashingTime);
+        
+        _rigidbody2D.gravityScale = originalGravity;
+        isDashing = false;
+        yield return new WaitForSeconds(dashingCooldown);
+        canDash = true;
+    }
+
+    
     private void OnDrawGizmosSelected() {
         Gizmos.DrawWireSphere(new Vector2(transform.position.x+.5f,transform.position.y),0.2f);
         Gizmos.DrawWireCube(new Vector2(transform.position.x+0.5f,transform.position.y),new Vector2(0.2f,0.2f));
