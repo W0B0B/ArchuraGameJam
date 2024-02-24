@@ -25,9 +25,9 @@ public class PlayerAttack : MonoBehaviour
         for (int i = 0; i < enemysToDamage.Length; i++)
         {
             enemysToDamage[i].GetComponent<Health>().TakeDamage(damage);
-
         }
         yield return new WaitForSeconds(attackCD);
+        
     }
     private void OnDrawGizmosSelected() {
         if (attackPosition!=null)
