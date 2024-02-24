@@ -191,6 +191,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &42967432
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 42967433}
+  m_Layer: 0
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &42967433
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42967432}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.76, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 782859867}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &46404838
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,7 +559,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e54ebe48baf3e1243b1a4bf084099365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealt: 5
+  bloodParticle: {fileID: 4388112318772661158, guid: 4d66c7cec0b83c749a81f46f40b2ac60, type: 3}
+  MaxHealt: 20
   CurrentHealt: 0
 --- !u!1 &115164879
 GameObject:
@@ -704,7 +736,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e54ebe48baf3e1243b1a4bf084099365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealt: 5
+  bloodParticle: {fileID: 4388112318772661158, guid: 4d66c7cec0b83c749a81f46f40b2ac60, type: 3}
+  MaxHealt: 20
   CurrentHealt: 0
 --- !u!1 &343114921
 GameObject:
@@ -1338,6 +1371,7 @@ Transform:
   m_Children:
   - {fileID: 1869176365}
   - {fileID: 444378237}
+  - {fileID: 42967433}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &782859868
@@ -1352,7 +1386,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e54ebe48baf3e1243b1a4bf084099365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealt: 10
+  bloodParticle: {fileID: 0}
+  MaxHealt: 20
   CurrentHealt: 0
 --- !u!114 &782859869
 MonoBehaviour:
@@ -1366,6 +1401,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef67a14f12b6d744baa05e3f394d18d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackCD: 0.2
+  damage: 0.1
+  attackDuration: 0.05
+  attackRange: 1.22
+  attackPosition: {fileID: 42967433}
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &833841837
 GameObject:
   m_ObjectHideFlags: 0
