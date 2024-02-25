@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     float wallJumpingCounter;
     float wallJumpingDuration=0.5f;
     [SerializeField] Vector2 wallJumpingPower=new Vector2(8,16);
+    private Animator ani;
     private bool isFacingRight = true;
 
     Vector2 Dir;
@@ -41,13 +42,16 @@ public class PlayerController : MonoBehaviour
     private void Start() {
         _collider2D=GetComponent<Collider2D>();
         _rigidbody2D=GetComponent<Rigidbody2D>();
+        ani=GetComponent<Animator>();
     }
     private void Update() {
+        ani.SetBool("isGround",IsGrounded());
         if (isDashing)
         {
             return;
         }
         Dir.x=Input.GetAxisRaw("Horizontal");
+        
         if (Input.GetKeyDown(KeyCode.Space)&&IsGrounded())
         {
             Jump();
@@ -72,6 +76,7 @@ public class PlayerController : MonoBehaviour
         if (!isWallJumping)
         {
             _rigidbody2D.velocity=new Vector2(Dir.x*speed,_rigidbody2D.velocity.y);
+            ani.SetFloat("isRunning",MathF.Abs(Dir.x));
         }
                    
     }
@@ -80,6 +85,7 @@ public class PlayerController : MonoBehaviour
     
     void Jump()
     {
+        ani.SetTrigger("Jump");
         _rigidbody2D.velocity=Vector2.up*jumpForce;
     }
 
@@ -87,6 +93,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!IsGrounded()&&IsWalled()&&Dir.x!=0)
         {
+            
             isWallSliding=true;
             _rigidbody2D.velocity=new Vector2(_rigidbody2D.velocity.x,Mathf.Clamp(_rigidbody2D.velocity.y,-wallSlidingSpeed,float.MaxValue));
         }
@@ -147,10 +154,10 @@ public class PlayerController : MonoBehaviour
         float originalGravity = _rigidbody2D.gravityScale;
         _rigidbody2D.gravityScale = 0f;
         _rigidbody2D.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
-        
+        ani.SetTrigger("dash");
         yield return new WaitForSeconds(dashingTime);
         
-        _rigidbody2D.gravityScale = originalGravity;
+        _rigidbody2D.gravityScale    = originalGravity;
         isDashing = false;
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
@@ -158,6 +165,7 @@ public class PlayerController : MonoBehaviour
     #endregion
     #region Checks 
     bool IsGrounded(){
+        
         return Physics2D.OverlapCircle(groundCheck.position,0.2f,groundLayer);
     }
     bool IsWalled(){

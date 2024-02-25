@@ -5,7 +5,7 @@ using UnityEngine;
 public class FallingPlatform : MonoBehaviour
 {
     private float fallDelay = 1f;
-    private float destroyDelay = 2f;
+    private float destroyDelay = 1.5f;
     [SerializeField] private Rigidbody2D rb;
     private void OnCollisionEnter2D(Collision2D collision)
     {
