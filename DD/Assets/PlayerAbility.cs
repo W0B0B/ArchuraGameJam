@@ -51,6 +51,7 @@ public class PlayerAbility : MonoBehaviour
     if (Input.GetKeyDown(KeyCode.Tab))
     {
         isPanelActive=true;
+        
         panel.SetActive(true);
     }
     if (Input.GetKeyUp(KeyCode.Tab))

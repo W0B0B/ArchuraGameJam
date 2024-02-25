@@ -20,7 +20,8 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-       
+       if (player!=null)
+       {
         if (!isFollowingPlayer && Vector2.Distance(transform.position, player.position) < followDistance)
         {
             isFollowingPlayer = true;
@@ -37,12 +38,6 @@ public class EnemyController : MonoBehaviour
            
             isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, groundLayer);
 
-            
-            if (isGrounded && Mathf.Abs(transform.position.x - player.position.x) < 1f)
-            {
-                Jump();
-            }
-
             if (!hasTouchedPlayer)
             {
                 float distanceToPlayer = Vector2.Distance(transform.position, player.position);
@@ -53,25 +48,19 @@ public class EnemyController : MonoBehaviour
                 }
             }
         }
+       }
+        
     }
 
-    void Jump()
-    {
-        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-    }
-
-    void DestroyEnemy()
-    {
-        Destroy(gameObject);
-    }
+    
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             hasTouchedPlayer = true; 
-            CancelInvoke("DestroyEnemy");
-            Destroy(gameObject);
+           collision.gameObject.GetComponent<Health>().TakeDamage(1);
+           
         }
     }
 }

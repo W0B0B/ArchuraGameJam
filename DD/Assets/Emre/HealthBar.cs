@@ -8,14 +8,15 @@ public class HealthBar : MonoBehaviour
     public Image[] hearts;
     public Sprite FullHeart;
     public Sprite EmptyHeart;
+    public Health health;
     
 
     private void Update()
     {
         
-        for (int i = 0; i < hearts.Length; i++)
+        for (int i = 0; i <hearts.Length; i++)
         {
-            if (i < Health.Instance.CurrentHealt)
+            if (i < health.CurrentHealt)
             {
                 hearts[i].sprite = FullHeart;
             }
@@ -23,7 +24,7 @@ public class HealthBar : MonoBehaviour
             {
                 hearts[i].sprite = EmptyHeart;
             }
-            if (i < Health.Instance.MaxHealt)
+            if (i < health.MaxHealt)
             {
                 hearts[i].enabled = true;
             }
