@@ -29,7 +29,7 @@ public class EnemyController : MonoBehaviour
         
         if (isFollowingPlayer)
         {
-            Vector2 targetPosition = new Vector2(player.position.x, transform.position.y);
+            Vector2 targetPosition = new Vector2(player.position.x, player.position.y);
 
            
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);

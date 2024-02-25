@@ -5,21 +5,17 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    public int health;
-    public int healthnum;
     public Image[] hearts;
     public Sprite FullHeart;
     public Sprite EmptyHeart;
+    
 
     private void Update()
     {
-        if (health > healthnum)
-        {
-            health = healthnum;
-        }
+        
         for (int i = 0; i < hearts.Length; i++)
         {
-            if (i < health)
+            if (i < Health.Instance.CurrentHealt)
             {
                 hearts[i].sprite = FullHeart;
             }
@@ -27,7 +23,7 @@ public class HealthBar : MonoBehaviour
             {
                 hearts[i].sprite = EmptyHeart;
             }
-            if (i < healthnum)
+            if (i < Health.Instance.MaxHealt)
             {
                 hearts[i].enabled = true;
             }

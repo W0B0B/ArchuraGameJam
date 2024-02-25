@@ -6,7 +6,7 @@ public class PlayerAttack : MonoBehaviour
 {
     [Header("Power")]
     [SerializeField] float attackCD;
-    [SerializeField] float damage;
+    [SerializeField] int damage;
     [SerializeField] float attackDuration;
     [SerializeField] float attackRange;
     [SerializeField] Transform attackPosition;
