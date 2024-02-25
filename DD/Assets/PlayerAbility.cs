@@ -63,7 +63,7 @@ public class PlayerAbility : MonoBehaviour
             Collider2D _collider2D=Physics2D.OverlapCircle(new Vector2(transform.position.x+1,transform.position.y),10f,whatIsIce);
     if (_collider2D&&turuncuCheck==true)
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
             _collider2D.gameObject.SetActive(false);    
         }
@@ -71,7 +71,7 @@ public class PlayerAbility : MonoBehaviour
     }
     if (cyanCheck==true)
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
             spawnPoint=Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x,Input.mousePosition.y));
             GameObject A= Instantiate(prefabD,spawnPoint,Quaternion.identity);
@@ -80,7 +80,7 @@ public class PlayerAbility : MonoBehaviour
     }
     if (morCheck==true)
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
             switch (rb.gravityScale)
         {

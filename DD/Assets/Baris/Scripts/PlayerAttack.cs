@@ -11,6 +11,10 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] float attackRange;
     [SerializeField] Transform attackPosition;
     [SerializeField] LayerMask whatIsEnemy;
+    Animator ani;
+    private void Start() {
+        ani=GetComponent<Animator>();
+    }
     private void Update() {
         if (Input.GetMouseButtonDown(0))
         {
@@ -20,7 +24,7 @@ public class PlayerAttack : MonoBehaviour
 
     IEnumerator Attack(){
         Collider2D[] enemysToDamage= Physics2D.OverlapCircleAll(attackPosition.position,attackRange,whatIsEnemy);
-        
+        ani.SetTrigger("Attack");
         yield return new WaitForSeconds(attackDuration); 
         for (int i = 0; i < enemysToDamage.Length; i++)
         {
